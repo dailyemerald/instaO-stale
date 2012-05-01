@@ -1,0 +1,26 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Helvetica";
+	color: #333;
+}
+#about {
+	margin-left: 20px;
+	margin-top: 20px;
+}
+ul {
+	background: #333;
+}
+
+li {
+	list-style-type: none;
+	padding: 10px;
+	margin: 10px;
+	float: left;
+}
+
+a {
+}
+
+#wrapper {
+}

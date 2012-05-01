@@ -1,0 +1,77 @@
+<html>
+<head>
+	<title>InstaO - Instagram photos from UO campus - Oregon Daily Emerald</title>
+	
+	<meta property="og:image" content="http://distilleryimage10.instagram.com/88b0329e933e11e19dc71231380fe523_7.jpg" />
+	
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/zepto/0.8/zepto.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/ICanHaz.js/0.9/ICanHaz.min.js"></script>
+	
+	<script id="photo" type="text/html">
+	      <li>
+	        <a href="{{ permalink }}" target="_blank">
+				<img src="{{ src }}"></img>
+			</a><br>
+			<span class="caption">{{ caption }}</span><br>
+			Posted: {{ datestring }}<br> 
+			By: <a href="{{ permalink }}">{{ username }}</a>
+			
+	      </li>
+	</script>
+	
+	<script type="text/javascript">
+	Zepto(function($) {
+		$.ajaxJSONP({ 
+			url: "http://dev.dailyemerald.com:8001/json?callback=?", 
+			success: function(data) {
+				$("#loadingtext").empty();
+				data.forEach(function(item) {
+					//console.log(item);
+					var datestring = new Date(parseInt(item.created_time)*1000).toLocaleString();
+					var caption  = "";
+					if (item.caption && item.caption.text) {
+						caption = '"'+ item.caption.text +'"';
+					}
+					//console.log(datestring)
+					var photo_data = {
+						src: item.images.standard_resolution.url,
+						caption: caption,
+						datestring: datestring,
+						permalink: item.link,
+						username: item.user.full_name
+					}
+					$("#photos").append(ich.photo(photo_data));
+				});
+			}
+		});
+		
+	});
+	</script>
+	<link rel="stylesheet" type="text/css" href="style.css"></link>
+</head>
+
+<body>
+	<div id="wrapper">
+		<h2 id="loadingtext">Loading... but if this doesn't got away promptly, it's probably broken</h2>
+		
+		<div id="about">This is a project from <a href="http://thegarage.dailyemerald.com">The Garage</a> and the <a href="http://dailyemerald.com">Emerald</a> by <a href="http://twitter.com/ivarvong">Ivar</a>.</div>
+		
+		<ul id="photos" />
+	</div>
+</body>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31311250-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</html>
